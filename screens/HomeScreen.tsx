@@ -1,22 +1,17 @@
 import { NativeStackHeaderProps } from '@react-navigation/native-stack';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import data from '../data.json';
+import WorkoutItem from './../components/WorkoutItem';
+import { Workout } from './../types/data';
 
 export default function HomeScreen({ navigation }: NativeStackHeaderProps) {
-	const renderItem = ({ item }: any) => {
-		return (
-			<View>
-				<Text>{`${item.name} - ${item.difficulty}`}</Text>
-			</View>
-		);
-	};
-
 	return (
 		<View style={styles.container}>
+			<Text style={styles.header}>Workout</Text>
 			<FlatList
-				data={data}
+				data={data as Workout[]}
 				keyExtractor={item => item.slug}
-				renderItem={renderItem}
+				renderItem={WorkoutItem}
 			/>
 		</View>
 	);
@@ -24,6 +19,13 @@ export default function HomeScreen({ navigation }: NativeStackHeaderProps) {
 
 const styles = StyleSheet.create({
 	container: {
-		padding: 20
+		padding: 20,
+		flex: 1
+	},
+	header: {
+		fontSize: 20,
+		marginBottom: 20,
+		fontWeight: 'bold',
+		fontFamily: 'montserrat-bold'
 	}
 });
