@@ -1,7 +1,7 @@
 import { NativeStackHeaderProps } from '@react-navigation/native-stack';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import PressableText from '../components/PressableText';
+import Modal from '../components/styled/Modal';
 import { useWorkoutBySlug } from './../hooks/useWorkoutBySlug';
 
 type DetailParams = {
@@ -24,7 +24,7 @@ const WorkoutDetailScreen = ({ route }: Navigation) => {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.header}>{workout.name}</Text>
-			<PressableText text="Check Sequence" onPress={() => alert('foo')} />
+			<Modal />
 		</View>
 	);
 };
