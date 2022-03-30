@@ -1,6 +1,6 @@
 import data from '../data.json';
 import { Workout } from '../types/data';
-import { containsKey, getData, storeData } from './index';
+import { containsKey, getData, removeItem, storeData } from './index';
 
 const KEY_DATA = 'workout-data'
 
@@ -20,4 +20,8 @@ export const initWorkouts = async (): Promise<boolean> => {
     }
 
     return false;
+}
+
+export const clearWorkouts = async () => {
+    await removeItem(KEY_DATA)
 }
