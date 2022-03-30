@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { formatSec } from '../utils/time';
 import { Workout } from './../types/data';
 import MontserratText from './styled/MontserratText';
 
@@ -8,7 +9,9 @@ export default function WorkoutItem({ item }: { item: Workout }) {
 		<View style={styles.container}>
 			<Text style={styles.name}>{item.name}</Text>
 			<MontserratText>{item.name}</MontserratText>
-			<Text style={styles.duration}>{`Duration: ${item.duration}`}</Text>
+			<Text style={styles.duration}>{`Duration: ${formatSec(
+				item.duration
+			)}`}</Text>
 			<Text style={styles.difficulty}>{`Difficulty: ${item.difficulty}`}</Text>
 		</View>
 	);
