@@ -8,7 +8,14 @@ export const getWorkouts =  async (): Promise<Workout[]> => {
     const workouts = await getData(KEY_DATA);
 
     return workouts;
- }
+}
+
+export const getWorkoutBySlug = async (slug: string): Promise<Workout> => {
+    const workouts = await getWorkouts();
+    const workout = workouts.filter(workout => workout.slug === slug)[0];
+
+    return workout;
+} 
 
 export const initWorkouts = async (): Promise<boolean> => {
     const hasWorkouts = await containsKey(KEY_DATA);
