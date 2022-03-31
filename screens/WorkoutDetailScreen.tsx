@@ -29,12 +29,16 @@ const WorkoutDetailScreen = ({ route }: Navigation) => {
 				activator={({ handleOpen }) => (
 					<PressableText onPress={handleOpen} text="Check Sequence" />
 				)}
-			/>
+			>
+				<Text>Hello there</Text>
+			</Modal>
 			<Modal
 				activator={({ handleOpen }) => (
 					<Button title="Custom Button" onPress={handleOpen} />
 				)}
-			/>
+			>
+				<Text>123123</Text>
+			</Modal>
 		</View>
 	);
 };

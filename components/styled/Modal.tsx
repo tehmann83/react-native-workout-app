@@ -1,14 +1,15 @@
 import React, { FunctionComponent, useState } from 'react';
-import { Modal as DefaultModal, StyleSheet, Text, View } from 'react-native';
+import { Modal as DefaultModal, StyleSheet, View } from 'react-native';
 import PressableText from '../PressableText';
 
 type ModalProps = {
 	activator?: FunctionComponent<{
 		handleOpen: () => void;
 	}>;
+	children: React.ReactNode;
 };
 
-const Modal = ({ activator: Activator }: ModalProps) => {
+const Modal = ({ activator: Activator, children }: ModalProps) => {
 	const [isModalVisible, setModalVisible] = useState(false);
 
 	return (
@@ -19,7 +20,7 @@ const Modal = ({ activator: Activator }: ModalProps) => {
 				animationType="fade"
 			>
 				<View style={styles.centerView}>
-					<Text>Hello there</Text>
+					{children}
 					<PressableText text="Close" onPress={() => setModalVisible(false)} />
 				</View>
 			</DefaultModal>
