@@ -33,7 +33,7 @@
 			},
 			{
 				"slug": "break-123213798",
-				"name": "Breath",
+				"name": "Break",
 				"type": "break",
 				"duration": 30
 			},
@@ -88,8 +88,8 @@
 				"duration": 120
 			},
 			{
-				"slug": "breath-1212337191",
-				"name": "Breath",
+				"slug": "Break-1212337191",
+				"name": "Break",
 				"type": "break",
 				"duration": 10
 			},
@@ -101,8 +101,8 @@
 				"duration": 120
 			},
 			{
-				"slug": "breath-2142123212",
-				"name": "Breath",
+				"slug": "Break-2142123212",
+				"name": "Break",
 				"type": "break",
 				"duration": 10
 			}

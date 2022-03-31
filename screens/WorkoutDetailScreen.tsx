@@ -1,6 +1,6 @@
 import { FontAwesome } from '@expo/vector-icons';
 import { NativeStackHeaderProps } from '@react-navigation/native-stack';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import PressableText from '../components/PressableText';
 import Modal from '../components/styled/Modal';
@@ -30,6 +30,20 @@ const WorkoutDetailScreen = ({ route }: Navigation) => {
 		trackerIdx >= 0 ? sequence[trackerIdx].duration : -1
 	);
 
+	useEffect(() => {
+		if (!workout) {
+			return;
+		}
+
+		if (trackerIdx === workout.sequence.length - 1) {
+			return;
+		}
+
+		if (countDown === 0) {
+			addItemToSequence(trackerIdx + 1);
+		}
+	}, [countDown]);
+
 	const addItemToSequence = (idx: number) => {
 		setSequence([...sequence, workout!.sequence[idx]]);
 		setTrackerIdx(idx);
@@ -38,6 +52,9 @@ const WorkoutDetailScreen = ({ route }: Navigation) => {
 	if (!workout) {
 		return null;
 	}
+
+	const hasReachedEnd =
+		sequence.length === workout.sequence.length && countDown === 0;
 
 	return (
 		<View style={styles.container}>
@@ -61,7 +78,7 @@ const WorkoutDetailScreen = ({ route }: Navigation) => {
 					</View>
 				</Modal>
 			</WorkoutItem>
-			<View>
+			<View style={styles.centerView}>
 				{sequence.length === 0 && (
 					<FontAwesome
 						name="play-circle-o"
@@ -69,6 +86,20 @@ const WorkoutDetailScreen = ({ route }: Navigation) => {
 						onPress={() => addItemToSequence(0)}
 					/>
 				)}
+				{sequence.length > 0 && countDown > 0 && (
+					<View>
+						<Text style={styles.countDownText}>{countDown}</Text>
+					</View>
+				)}
+			</View>
+			<View style={styles.centerView}>
+				<Text style={styles.countDownText}>
+					{sequence.length === 0
+						? 'Prepare'
+						: !hasReachedEnd
+						? sequence[trackerIdx].name
+						: 'Great Job!'}
+				</Text>
 			</View>
 		</View>
 	);
@@ -89,5 +120,14 @@ const styles = StyleSheet.create({
 	},
 	sequenceItem: {
 		alignItems: 'center'
+	},
+	centerView: {
+		flexDirection: 'row',
+		justifyContent: 'space-around',
+		alignItems: 'center',
+		marginBottom: 20
+	},
+	countDownText: {
+		fontSize: 55
 	}
 });
