@@ -1,6 +1,7 @@
 import { NativeStackHeaderProps } from '@react-navigation/native-stack';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View } from 'react-native';
+import PressableText from '../components/PressableText';
 import Modal from '../components/styled/Modal';
 import { useWorkoutBySlug } from './../hooks/useWorkoutBySlug';
 
@@ -24,7 +25,16 @@ const WorkoutDetailScreen = ({ route }: Navigation) => {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.header}>{workout.name}</Text>
-			<Modal />
+			<Modal
+				activator={({ handleOpen }) => (
+					<PressableText onPress={handleOpen} text="Check Sequence" />
+				)}
+			/>
+			<Modal
+				activator={({ handleOpen }) => (
+					<Button title="Custom Button" onPress={handleOpen} />
+				)}
+			/>
 		</View>
 	);
 };

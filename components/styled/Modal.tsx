@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { Modal as DefaultModal, StyleSheet, Text, View } from 'react-native';
 import PressableText from '../PressableText';
 
-const Modal = () => {
+type ModalProps = {
+	activator?: FunctionComponent<{
+		handleOpen: () => void;
+	}>;
+};
+
+const Modal = ({ activator: Activator }: ModalProps) => {
 	const [isModalVisible, setModalVisible] = useState(false);
 
 	return (
@@ -17,10 +23,11 @@ const Modal = () => {
 					<PressableText text="Close" onPress={() => setModalVisible(false)} />
 				</View>
 			</DefaultModal>
-			<PressableText
-				text="Check Sequence"
-				onPress={() => setModalVisible(true)}
-			/>
+			{Activator ? (
+				<Activator handleOpen={() => setModalVisible(true)} />
+			) : (
+				<PressableText text="Open" onPress={() => setModalVisible(true)} />
+			)}
 		</>
 	);
 };
