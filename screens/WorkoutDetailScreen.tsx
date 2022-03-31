@@ -1,9 +1,12 @@
+import { FontAwesome } from '@expo/vector-icons';
 import { NativeStackHeaderProps } from '@react-navigation/native-stack';
 import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import PressableText from '../components/PressableText';
 import Modal from '../components/styled/Modal';
+import WorkoutItem from './../components/WorkoutItem';
 import { useWorkoutBySlug } from './../hooks/useWorkoutBySlug';
+import { formatSec } from './../utils/time';
 
 type DetailParams = {
 	route: {
@@ -24,21 +27,26 @@ const WorkoutDetailScreen = ({ route }: Navigation) => {
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.header}>{workout.name}</Text>
-			<Modal
-				activator={({ handleOpen }) => (
-					<PressableText onPress={handleOpen} text="Check Sequence" />
-				)}
-			>
-				<Text>Hello there</Text>
-			</Modal>
-			<Modal
-				activator={({ handleOpen }) => (
-					<Button title="Custom Button" onPress={handleOpen} />
-				)}
-			>
-				<Text>123123</Text>
-			</Modal>
+			<WorkoutItem item={workout} childStyles={{ marginTop: 10 }}>
+				<Modal
+					activator={({ handleOpen }) => (
+						<PressableText onPress={handleOpen} text="Check Sequence" />
+					)}
+				>
+					<View>
+						{workout.sequence.map((sItem, index) => (
+							<View key={sItem.slug} style={styles.sequenceItem}>
+								<Text>{`${sItem.name} | ${sItem.type} | ${formatSec(
+									sItem.duration
+								)}`}</Text>
+								{index < workout.sequence.length - 1 && (
+									<FontAwesome name="arrow-down" size={20} />
+								)}
+							</View>
+						))}
+					</View>
+				</Modal>
+			</WorkoutItem>
 		</View>
 	);
 };
@@ -55,5 +63,8 @@ const styles = StyleSheet.create({
 		marginBottom: 20,
 		fontWeight: 'bold',
 		fontFamily: 'montserrat-bold'
+	},
+	sequenceItem: {
+		alignItems: 'center'
 	}
 });

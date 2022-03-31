@@ -1,10 +1,18 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import { formatSec } from '../utils/time';
 import { Workout } from './../types/data';
 import MontserratText from './styled/MontserratText';
 
-export default function WorkoutItem({ item }: { item: Workout }) {
+export default function WorkoutItem({
+	item,
+	children,
+	childStyles = {}
+}: {
+	item: Workout;
+	children?: React.ReactNode;
+	childStyles?: StyleProp<ViewStyle>;
+}) {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.name}>{item.name}</Text>
@@ -13,6 +21,7 @@ export default function WorkoutItem({ item }: { item: Workout }) {
 				item.duration
 			)}`}</Text>
 			<Text style={styles.difficulty}>{`Difficulty: ${item.difficulty}`}</Text>
+			{children && <View style={childStyles}>{children}</View>}
 		</View>
 	);
 }
