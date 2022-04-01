@@ -25,10 +25,7 @@ const WorkoutDetailScreen = ({ route }: Navigation) => {
 	const [trackerIdx, setTrackerIdx] = useState(-1);
 	const workout = useWorkoutBySlug(route.params.slug);
 
-	const countDown = useCountDown(
-		trackerIdx,
-		trackerIdx >= 0 ? sequence[trackerIdx].duration : -1
-	);
+	const { countDown, isRunning, stop, start } = useCountDown(trackerIdx);
 
 	useEffect(() => {
 		if (!workout) {
@@ -45,8 +42,17 @@ const WorkoutDetailScreen = ({ route }: Navigation) => {
 	}, [countDown]);
 
 	const addItemToSequence = (idx: number) => {
-		setSequence([...sequence, workout!.sequence[idx]]);
+		let newSequence = [];
+
+		if (idx > 0) {
+			newSequence = [...sequence, workout!.sequence[idx]];
+		} else {
+			newSequence = [workout!.sequence[idx]];
+		}
+
+		setSequence(newSequence);
 		setTrackerIdx(idx);
+		start(newSequence[idx].duration);
 	};
 
 	if (!workout) {
@@ -78,27 +84,47 @@ const WorkoutDetailScreen = ({ route }: Navigation) => {
 					</View>
 				</Modal>
 			</WorkoutItem>
-			<View style={styles.centerView}>
-				{sequence.length === 0 && (
-					<FontAwesome
-						name="play-circle-o"
-						size={100}
-						onPress={() => addItemToSequence(0)}
-					/>
-				)}
-				{sequence.length > 0 && countDown > 0 && (
-					<View>
+			<View style={styles.counterUI}>
+				<View style={styles.counterItem}>
+					{sequence.length === 0 ? (
+						<FontAwesome
+							name="play-circle-o"
+							size={100}
+							onPress={() => addItemToSequence(0)}
+						/>
+					) : isRunning ? (
+						<FontAwesome
+							name="stop-circle-o"
+							size={100}
+							onPress={() => stop()}
+						/>
+					) : (
+						<FontAwesome
+							name="play-circle-o"
+							size={100}
+							onPress={() => {
+								if (hasReachedEnd) {
+									addItemToSequence(0);
+								} else {
+									start(countDown);
+								}
+							}}
+						/>
+					)}
+				</View>
+				{sequence.length > 0 && countDown >= 0 && (
+					<View style={styles.counterItem}>
 						<Text style={styles.countDownText}>{countDown}</Text>
 					</View>
 				)}
 			</View>
-			<View style={styles.centerView}>
+			<View style={styles.counterUI}>
 				<Text style={styles.countDownText}>
 					{sequence.length === 0
 						? 'Prepare'
 						: !hasReachedEnd
 						? sequence[trackerIdx].name
-						: 'Great Job!'}
+						: 'Finished!'}
 				</Text>
 			</View>
 		</View>
@@ -121,11 +147,15 @@ const styles = StyleSheet.create({
 	sequenceItem: {
 		alignItems: 'center'
 	},
-	centerView: {
+	counterUI: {
 		flexDirection: 'row',
 		justifyContent: 'space-around',
 		alignItems: 'center',
 		marginBottom: 20
+	},
+	counterItem: {
+		flex: 1,
+		alignItems: 'center'
 	},
 	countDownText: {
 		fontSize: 55
