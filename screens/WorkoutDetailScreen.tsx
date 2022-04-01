@@ -23,8 +23,9 @@ type Navigation = NativeStackHeaderProps & DetailParams;
 const WorkoutDetailScreen = ({ route }: Navigation) => {
 	const [sequence, setSequence] = useState<SequenceItem[]>([]);
 	const [trackerIdx, setTrackerIdx] = useState(-1);
-	const workout = useWorkoutBySlug(route.params.slug);
 
+	const workout = useWorkoutBySlug(route.params.slug);
+	const startupSeq = ['3', '2', '1', 'Go!'].reverse();
 	const { countDown, isRunning, stop, start } = useCountDown(trackerIdx);
 
 	useEffect(() => {
@@ -52,7 +53,7 @@ const WorkoutDetailScreen = ({ route }: Navigation) => {
 
 		setSequence(newSequence);
 		setTrackerIdx(idx);
-		start(newSequence[idx].duration);
+		start(newSequence[idx].duration + startupSeq.length);
 	};
 
 	if (!workout) {
@@ -84,48 +85,55 @@ const WorkoutDetailScreen = ({ route }: Navigation) => {
 					</View>
 				</Modal>
 			</WorkoutItem>
-			<View style={styles.counterUI}>
-				<View style={styles.counterItem}>
-					{sequence.length === 0 ? (
-						<FontAwesome
-							name="play-circle-o"
-							size={100}
-							onPress={() => addItemToSequence(0)}
-						/>
-					) : isRunning ? (
-						<FontAwesome
-							name="stop-circle-o"
-							size={100}
-							onPress={() => stop()}
-						/>
-					) : (
-						<FontAwesome
-							name="play-circle-o"
-							size={100}
-							onPress={() => {
-								if (hasReachedEnd) {
-									addItemToSequence(0);
-								} else {
-									start(countDown);
-								}
-							}}
-						/>
+			<View style={styles.wrapper}>
+				<View style={styles.counterUI}>
+					<View style={styles.counterItem}>
+						{sequence.length === 0 ? (
+							<FontAwesome
+								name="play-circle-o"
+								size={100}
+								onPress={() => addItemToSequence(0)}
+							/>
+						) : isRunning ? (
+							<FontAwesome
+								name="stop-circle-o"
+								size={100}
+								onPress={() => stop()}
+							/>
+						) : (
+							<FontAwesome
+								name="play-circle-o"
+								size={100}
+								onPress={() => {
+									if (hasReachedEnd) {
+										addItemToSequence(0);
+									} else {
+										start(countDown);
+									}
+								}}
+							/>
+						)}
+					</View>
+					{sequence.length > 0 && countDown >= 0 && (
+						<View style={styles.counterItem}>
+							<Text style={styles.countDownText}>
+								{countDown > sequence[trackerIdx].duration
+									? startupSeq[countDown - sequence[trackerIdx].duration - 1]
+									: countDown}
+							</Text>
+						</View>
 					)}
 				</View>
-				{sequence.length > 0 && countDown >= 0 && (
-					<View style={styles.counterItem}>
-						<Text style={styles.countDownText}>{countDown}</Text>
-					</View>
-				)}
-			</View>
-			<View style={styles.counterUI}>
-				<Text style={styles.countDownText}>
-					{sequence.length === 0
-						? 'Prepare'
-						: !hasReachedEnd
-						? sequence[trackerIdx].name
-						: 'Finished!'}
-				</Text>
+
+				<View style={styles.counterUI}>
+					<Text style={styles.countDownText}>
+						{sequence.length === 0
+							? 'Prepare'
+							: !hasReachedEnd
+							? sequence[trackerIdx].name
+							: 'Finished!'}
+					</Text>
+				</View>
 			</View>
 		</View>
 	);
@@ -159,5 +167,12 @@ const styles = StyleSheet.create({
 	},
 	countDownText: {
 		fontSize: 55
+	},
+	wrapper: {
+		borderRadius: 10,
+		borderColor: 'rgba(0,0,0,0.1)',
+		backgroundColor: '#FFFFFF',
+		borderWidth: 1,
+		padding: 10
 	}
 });
