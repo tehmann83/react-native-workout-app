@@ -9,6 +9,7 @@ import WorkoutForm, { WorkoutFormData } from '../components/WorkoutForm';
 import { storeWorkout } from '../storage/workout';
 import { SequenceItem, SequenceType, Workout } from '../types/data';
 import ExerciseItem from './../components/ExerciseItem';
+import PressableThemeText from './../components/styled/PressableThemeText';
 
 export default function PlannerScreen({ navigation }: NativeStackHeaderProps) {
 	const [seqItems, setSeqItems] = useState<SequenceItem[]>([]);
@@ -100,7 +101,7 @@ export default function PlannerScreen({ navigation }: NativeStackHeaderProps) {
 			<ExerciseForm onSubmit={handleExerciseSubmit} />
 			<Modal
 				activator={({ handleOpen }) => (
-					<PressableText
+					<PressableThemeText
 						text="Create Workout"
 						onPress={handleOpen}
 						style={styles.modalOpener}

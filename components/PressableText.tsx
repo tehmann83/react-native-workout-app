@@ -1,10 +1,22 @@
 import React from 'react';
-import { Pressable, PressableProps, StyleSheet, Text } from 'react-native';
+import {
+	Pressable,
+	PressableProps,
+	StyleProp,
+	StyleSheet,
+	Text,
+	TextStyle
+} from 'react-native';
 
-const PressableText = (props: PressableProps & { text: string }) => {
+export type PressableTextProps = PressableProps & {
+	text: string;
+	style?: StyleProp<TextStyle>;
+};
+
+const PressableText = (props: PressableTextProps) => {
 	return (
 		<Pressable {...props}>
-			<Text style={styles.underlined}>{props.text}</Text>
+			<Text style={[props.style, styles.underlined]}>{props.text}</Text>
 		</Pressable>
 	);
 };

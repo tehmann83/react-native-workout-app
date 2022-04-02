@@ -35,6 +35,7 @@ const ExerciseForm = ({ onSubmit }: WorkoutProps) => {
 							value={value}
 							style={styles.input}
 							placeholder="Exercise (e.g. pushups)"
+							placeholderTextColor={'rgba(0,0,0,0.4)'}
 						/>
 					)}
 				/>
@@ -50,6 +51,7 @@ const ExerciseForm = ({ onSubmit }: WorkoutProps) => {
 							value={value}
 							style={styles.input}
 							placeholder="Duration (sec)"
+							placeholderTextColor={'rgba(0,0,0,0.4)'}
 						/>
 					)}
 				/>
@@ -65,6 +67,7 @@ const ExerciseForm = ({ onSubmit }: WorkoutProps) => {
 							value={value}
 							style={styles.input}
 							placeholder="Repetitions"
+							placeholderTextColor={'rgba(0,0,0,0.4)'}
 						/>
 					)}
 				/>
@@ -95,6 +98,7 @@ const ExerciseForm = ({ onSubmit }: WorkoutProps) => {
 									onPressIn={() => setSelectionOn(true)}
 									style={styles.input}
 									placeholder="Type"
+									placeholderTextColor={'rgba(0,0,0,0.4)'}
 									value={value}
 								/>
 							)}
