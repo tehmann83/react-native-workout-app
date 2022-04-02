@@ -1,5 +1,6 @@
 import { NativeStackHeaderProps } from '@react-navigation/native-stack';
-import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Pressable, StyleSheet, View } from 'react-native';
+import ThemeText from './../components/styled/Text';
 import WorkoutItem from './../components/WorkoutItem';
 import { useWorkouts } from './../hooks/useWorkouts';
 
@@ -8,7 +9,7 @@ export default function HomeScreen({ navigation }: NativeStackHeaderProps) {
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.header}>Workout</Text>
+			<ThemeText style={styles.header}>Workout</ThemeText>
 			{workouts && (
 				<FlatList
 					// data={data as Workout[]}
