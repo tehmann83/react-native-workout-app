@@ -6,6 +6,7 @@ import ExerciseForm, { ExerciseFormData } from '../components/ExerciseForm';
 import PressableText from '../components/PressableText';
 import Modal from '../components/styled/Modal';
 import WorkoutForm, { WorkoutFormData } from '../components/WorkoutForm';
+import { storeWorkout } from '../storage/workout';
 import { SequenceItem, SequenceType, Workout } from '../types/data';
 import ExerciseItem from './../components/ExerciseItem';
 
@@ -44,7 +45,7 @@ export default function PlannerScreen({ navigation }: NativeStackHeaderProps) {
 		}
 	};
 
-	const handleWorkoutSubmit = (form: WorkoutFormData) => {
+	const handleWorkoutSubmit = async (form: WorkoutFormData) => {
 		const { name } = form;
 
 		if (seqItems.length > 0) {
@@ -63,7 +64,7 @@ export default function PlannerScreen({ navigation }: NativeStackHeaderProps) {
 				duration
 			};
 
-			console.log(workout);
+			await storeWorkout(workout);
 		}
 	};
 
@@ -109,9 +110,10 @@ export default function PlannerScreen({ navigation }: NativeStackHeaderProps) {
 				{({ handleClose }) => (
 					<View>
 						<WorkoutForm
-							onSubmit={data => {
-								handleWorkoutSubmit(data);
+							onSubmit={async data => {
+								await handleWorkoutSubmit(data);
 								handleClose();
+								navigation.navigate('Home');
 							}}
 						/>
 					</View>

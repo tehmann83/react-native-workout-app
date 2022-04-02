@@ -54,7 +54,8 @@ function BottomTabNavigator() {
 				options={{
 					tabBarIcon: props => (
 						<Entypo name="add-to-list" size={props.size} color={props.color} />
-					)
+					),
+					unmountOnBlur: true
 				}}
 			/>
 		</BottomTab.Navigator>
