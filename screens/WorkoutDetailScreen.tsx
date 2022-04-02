@@ -71,18 +71,20 @@ const WorkoutDetailScreen = ({ route }: Navigation) => {
 						<PressableText onPress={handleOpen} text="Check Sequence" />
 					)}
 				>
-					<View>
-						{workout.sequence.map((sItem, index) => (
-							<View key={sItem.slug} style={styles.sequenceItem}>
-								<Text>{`${sItem.name} | ${sItem.type} | ${formatSec(
-									sItem.duration
-								)}`}</Text>
-								{index < workout.sequence.length - 1 && (
-									<FontAwesome name="arrow-down" size={20} />
-								)}
-							</View>
-						))}
-					</View>
+					{() => (
+						<View>
+							{workout.sequence.map((sItem, index) => (
+								<View key={sItem.slug} style={styles.sequenceItem}>
+									<Text>{`${sItem.name} | ${sItem.type} | ${formatSec(
+										sItem.duration
+									)}`}</Text>
+									{index < workout.sequence.length - 1 && (
+										<FontAwesome name="arrow-down" size={20} />
+									)}
+								</View>
+							))}
+						</View>
+					)}
 				</Modal>
 			</WorkoutItem>
 			<View style={styles.wrapper}>
